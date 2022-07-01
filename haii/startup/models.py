@@ -8,7 +8,7 @@ class Startup(models.Model):
 
     description = models.TextField(verbose_name='توضیحات',blank=True,null=True)
 
-    image = models.ImageField(verbose_name='لوگو',upload_to=upload_image_path,null=True,blank=True,)
+    image = models.ImageField(verbose_name='لوگو',upload_to=upload_image_path,null=True,blank=True)
 
     main_job = models.TextField(verbose_name='کار استارت آپ')
 

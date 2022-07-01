@@ -5,7 +5,7 @@ from utils.utils import upload_image_path
 class BaseField(models.Model):
     name = models.CharField(verbose_name='نام',max_length=50)
 
-    description = models.TextField(verbose_name='توضیحات',blank=True,null=True)
+    description = models.TextField(verbose_name='توضیحات')
 
     image = models.ImageField(verbose_name='لوگو',upload_to=upload_image_path,null=True,blank=True,)
 

@@ -42,7 +42,7 @@ class Category(BaseField):
 class News(BaseField):
     news = models.TextField(verbose_name='خبر')
 
-    image = models.ImageField(verbose_name='تصویر',upload_to=upload_image_path)
+    image = models.ImageField(verbose_name='تصویر',upload_to=upload_image_path,blank=True,null=True)
 
     date_of_registration = models.DateTimeField('تاریخ ثبت',auto_now_add=True)
 
@@ -50,9 +50,15 @@ class News(BaseField):
 
     share = models.BooleanField(verbose_name='اشتراک گذاری در شبکه های اجتماعی',default=False)
 
+    date_of_send = models.DateTimeField('تاریخ ارسال به کانال تلگرام',blank=True,null=True)
+
     tag = models.ManyToManyField(Tag,verbose_name='تگ',blank=True)
 
     category = models.ManyToManyField(Category,verbose_name='دسته بندی',blank=True)
+
+
+    def __str__(self):
+        return self.name
 
 
     class Meta:
