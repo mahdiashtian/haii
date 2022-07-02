@@ -1,4 +1,5 @@
 from django.db import models
+from sqlalchemy import true
 from utils.utils import upload_image_path
 from django.conf import settings
 
@@ -14,7 +15,7 @@ class Startup(models.Model):
 
     date_of_formation = models.DateTimeField(auto_now_add=True,verbose_name='تاریخ تشکیل')
 
-    ceo = models.ForeignKey(to=settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,related_name='ceo_team',null=True,blank=True)
+    ceo = models.ForeignKey(verbose_name='مدیر عامل',to=settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,related_name='ceo_team',null=True,blank=True)
 
     
     def __str__(self):
