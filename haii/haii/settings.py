@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
+    'drf_yasg',
     'debug_toolbar',
 
     'team',
@@ -152,6 +153,8 @@ TOKEN_BOT = config('TOKEN_BOT')
 ID_CHANNEL = config('ID_CHANNEL')
 
 AUTH_USER_MODEL = 'user.User'
+
+# For debug_toolbars
 INTERNAL_IPS = [
     "127.0.0.1",
 ]

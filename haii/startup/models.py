@@ -1,5 +1,4 @@
 from django.db import models
-from sqlalchemy import true
 from utils.utils import upload_image_path
 from django.conf import settings
 
