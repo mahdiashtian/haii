@@ -41,9 +41,11 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admins/doc/', include('django.contrib.admindocs.urls')),
     path('api-auth/', include('rest_framework.urls')),
 
     path('api/', include('user.urls',namespace='api-v1-users')),
+    path('api/', include('startup.urls',namespace='api-v1-startup')),
 
     # Extension :
     path('__debug__/', include('debug_toolbar.urls')),

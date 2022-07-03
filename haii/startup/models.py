@@ -14,9 +14,9 @@ class Startup(models.Model):
 
     date_of_formation = models.DateTimeField(auto_now_add=True,verbose_name='تاریخ تشکیل')
 
-    ceo = models.ForeignKey(verbose_name='مدیر عامل',to=settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,related_name='ceo_team',null=True,blank=True)
+    user = models.ManyToManyField(to=settings.AUTH_USER_MODEL,verbose_name='اعضا',related_name='user_startup')
 
-    
+
     def __str__(self):
         return self.name
 
