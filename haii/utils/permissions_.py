@@ -17,6 +17,13 @@ class IsEditor(BasePermission):
         )
 
 
+    def has_object_permission(self, request, view, obj):
+        if obj.group.filter(user=request.user).exists():
+            return True
+        else:
+            return False
+
+
 class IsAdder(BasePermission):
     def has_permission(self, request, view):
         opts = view.model._meta
@@ -36,6 +43,13 @@ class IsRemoval(BasePermission):
                  "%s.%s" % (opts.app_label, get_permission_codename('delete', opts))
              )
         )
+
+
+    def has_object_permission(self, request, view, obj):
+        if obj.group.filter(user=request.user).exists():
+            return True
+        else:
+            return False
 
 
 class IsViewer(BasePermission):
