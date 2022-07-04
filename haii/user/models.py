@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser , Group
+from django.contrib.auth.models import AbstractUser , Group , PermissionsMixin as PMX
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
@@ -11,7 +11,6 @@ class CustomGroup(Group):
     owner_content_type = models.ForeignKey(ContentType,
         on_delete=models.CASCADE, 
         related_name="team_content_type",
-        null=True,blank=True,
         limit_choices_to = limit)
     owner_object_id = models.PositiveIntegerField(null=True,blank=True)
     owner_instance = GenericForeignKey('owner_content_type', 'owner_object_id')
@@ -31,7 +30,7 @@ class CustomGroup(Group):
         verbose_name_plural = _("groups")
 
 
-class User(AbstractUser):
+class PermissionsMixin(PMX):
     groups = models.ManyToManyField(
         CustomGroup,
         verbose_name=_("groups"),
@@ -45,6 +44,11 @@ class User(AbstractUser):
     )
 
 
+    class Meta:
+        abstract = True
+
+
+class User(AbstractUser,PermissionsMixin):
     def is_group(self,group):
         result = self.groups.filter(name=group).exists()
         return result
