@@ -1,8 +1,7 @@
-from django.shortcuts import render
 from rest_framework import viewsets , status
 from .serializers_ import UserSerializers , GroupSerializers , PermissionSerializers , ChangePasswordSerializer
-from .models import User
-from django.contrib.auth.models import Group, Permission
+from .models import User , CustomGroup
+from django.contrib.auth.models import Permission
 from utils.permissions_ import IsSuperUser
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -43,7 +42,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializers
-    queryset = Group.objects.all()
+    queryset = CustomGroup.objects.all()
     permission_classes = [IsSuperUser]
 
 

@@ -1,6 +1,6 @@
 from django.db import models
 from utils.utils import upload_image_path
-
+from django.contrib.contenttypes.fields import GenericForeignKey,GenericRelation
 
 class BaseField(models.Model):
     name = models.CharField(verbose_name='نام',max_length=50)
@@ -11,7 +11,7 @@ class BaseField(models.Model):
 
     date = models.DateTimeField(auto_now_add=True,verbose_name='سال ساخت')
 
-    
+
     class Meta:
         abstract = True
 
@@ -33,6 +33,7 @@ class Product(BaseField):
 class Team(BaseField):
     product = models.ManyToManyField(to=Product,related_name='product_team',blank=True)
 
+    group = GenericRelation('user.CustomGroup', content_type_field='owner_content_type', object_id_field='owner_object_id')
 
     def __str__(self):
         return self.name

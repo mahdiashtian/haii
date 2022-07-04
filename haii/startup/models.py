@@ -1,6 +1,7 @@
 from django.db import models
 from utils.utils import upload_image_path
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey,GenericRelation
 
 
 class Startup(models.Model):
@@ -15,6 +16,8 @@ class Startup(models.Model):
     date_of_formation = models.DateTimeField(auto_now_add=True,verbose_name='تاریخ تشکیل')
 
     user = models.ManyToManyField(to=settings.AUTH_USER_MODEL,verbose_name='اعضا',related_name='user_startup')
+
+    group = GenericRelation('user.CustomGroup', content_type_field='owner_content_type', object_id_field='owner_object_id')
 
 
     def __str__(self):

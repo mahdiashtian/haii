@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'team',
     'startup',
     'news',
-    'user'
+    'user',
 ]
 
 MIDDLEWARE = [
