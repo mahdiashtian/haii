@@ -7,6 +7,10 @@ class IsSuperUser(BasePermission):
         return bool(request.user and request.user.is_superuser)
 
 
+    def has_object_permission(self, request, view, obj):
+        return bool(request.user and request.user.is_superuser)
+        
+
 class IsEditor(BasePermission):
     def has_permission(self, request, view):
         opts = view.model._meta
