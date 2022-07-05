@@ -47,6 +47,7 @@ urlpatterns = [
     path('api/', include('user.urls',namespace='api-v1-users')),
     path('api/', include('startup.urls',namespace='api-v1-startup')),
     path('api/', include('product.urls',namespace='api-v1-product')),
+    path('api/', include('team.urls',namespace='api-v1-team')),
 
     # Extension :
     path('__debug__/', include('debug_toolbar.urls')),
