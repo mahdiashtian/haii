@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'startup',
     'news',
     'user',
+    'product',
 ]
 
 MIDDLEWARE = [
@@ -159,3 +160,8 @@ AUTH_USER_MODEL = 'user.User'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+REST_FRAMEWORK = {
+
+
+}
