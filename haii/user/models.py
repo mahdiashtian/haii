@@ -51,7 +51,7 @@ class PermissionsMixin(PMX):
         abstract = True
 
 
-class User(AbstractUser,PermissionsMixin):
+class User(PermissionsMixin,AbstractUser):
     def is_group(self,group):
         result = self.groups.filter(name=group).exists()
         return result
