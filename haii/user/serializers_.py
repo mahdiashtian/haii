@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import User , CustomGroup
-from django.contrib.auth.models import Permission
+from .models import User 
+from django.contrib.auth.models import Permission , Group
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.models import ContentType
@@ -35,7 +35,7 @@ class GroupSerializers(serializers.ModelSerializer):
           
 
     class Meta:
-        model = CustomGroup
+        model = Group
 
         fields = [
             'id',

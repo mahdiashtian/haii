@@ -24,7 +24,7 @@ class Product(models.Model):
 
     owner_instance = GenericForeignKey('owner_content_type', 'owner_object_id')
 
-    group = GenericRelation('user.CustomGroup', content_type_field='owner_content_type', object_id_field='owner_object_id')
+    group = GenericRelation('auth.Group', content_type_field='owner_content_type', object_id_field='owner_object_id')
 
 
     def __str__(self):

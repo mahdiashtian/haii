@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
 
     'drf_yasg',
     'debug_toolbar',
@@ -52,6 +59,8 @@ INSTALLED_APPS = [
     'user',
     'product',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -156,12 +165,9 @@ ID_CHANNEL = config('ID_CHANNEL')
 
 AUTH_USER_MODEL = 'user.User'
 
-# For debug_toolbars
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
 
 REST_FRAMEWORK = {
-
-
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    )
 }

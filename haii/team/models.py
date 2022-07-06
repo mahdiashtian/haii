@@ -15,7 +15,7 @@ class Team(models.Model):
 
     user = models.ManyToManyField(to=AUTH_USER_MODEL,verbose_name='اعضا',related_name='user_team')
 
-    group = GenericRelation('user.CustomGroup', content_type_field='owner_content_type', object_id_field='owner_object_id')
+    group = GenericRelation('auth.Group', content_type_field='owner_content_type', object_id_field='owner_object_id')
 
     product = GenericRelation('product.Product', content_type_field='owner_content_type', object_id_field='owner_object_id')
 

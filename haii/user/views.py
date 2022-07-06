@@ -1,6 +1,6 @@
 from rest_framework import viewsets , status
 from .serializers_ import UserSerializers , GroupSerializers , PermissionSerializers , ChangePasswordSerializer
-from .models import User , CustomGroup
+from .models import User , Group
 from django.contrib.auth.models import Permission
 from utils.permissions_ import IsSuperUser
 from rest_framework.decorators import action
@@ -42,7 +42,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializers
-    queryset = CustomGroup.objects.all()
+    queryset = Group.objects.all()
     permission_classes = [IsSuperUser]
 
 
