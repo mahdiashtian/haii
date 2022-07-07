@@ -6,6 +6,13 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 
+
+class User(AbstractUser):
+    def is_group(self, group):
+        result = self.groups.filter(name=group).exists()
+        return result
+
+
 limit = models.Q(app_label='startup', model='startup') | models.Q(app_label='team', model='team') | models.Q(
     app_label='product', model='product')
 
@@ -20,6 +27,7 @@ owner_instance = GenericForeignKey('owner_content_type', 'owner_object_id')
 
 is_admin = models.BooleanField(default=False)
 
+creator = models.ForeignKey(User,on_delete=models.CASCADE)
 
 def clean(self):
     print(self.is_admin)
@@ -30,12 +38,7 @@ def clean(self):
 
 Group.clean = clean
 Group.add_to_class('is_admin', is_admin)
+Group.add_to_class('creator',creator)
 Group.add_to_class('owner_content_type', owner_content_type)
 Group.add_to_class('owner_object_id', owner_object_id)
 Group.add_to_class('owner_instance', owner_instance)
-
-
-class User(AbstractUser):
-    def is_group(self, group):
-        result = self.groups.filter(name=group).exists()
-        return result
