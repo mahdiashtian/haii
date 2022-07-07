@@ -1,7 +1,7 @@
 from tokenize import group
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, PermissionsMixin
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey , GenericRelation
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
@@ -14,7 +14,7 @@ class User(AbstractUser):
 
 
 limit = models.Q(app_label='startup', model='startup') | models.Q(app_label='team', model='team') | models.Q(
-    app_label='product', model='product')
+    app_label='product', model='product') | models.Q(app_label='auth', model='group')
 
 owner_content_type = models.ForeignKey(ContentType,
                                        on_delete=models.CASCADE,
@@ -29,6 +29,9 @@ is_admin = models.BooleanField(default=False)
 
 creator = models.ForeignKey(User,on_delete=models.CASCADE)
 
+group = GenericRelation('auth.Group', content_type_field='owner_content_type', object_id_field='owner_object_id')
+
+
 def clean(self):
     print(self.is_admin)
     result = self.owner_content_type.model_class().objects.filter(id=self.owner_object_id).exists()
@@ -39,6 +42,7 @@ def clean(self):
 Group.clean = clean
 Group.add_to_class('is_admin', is_admin)
 Group.add_to_class('creator',creator)
+Group.add_to_class('group',group)
 Group.add_to_class('owner_content_type', owner_content_type)
 Group.add_to_class('owner_object_id', owner_object_id)
 Group.add_to_class('owner_instance', owner_instance)
