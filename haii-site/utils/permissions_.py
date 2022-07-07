@@ -1,5 +1,6 @@
 from rest_framework.permissions import BasePermission
 from django.contrib.auth import get_permission_codename
+from django.contrib.contenttypes.models import ContentType
 
 
 class IsSuperUser(BasePermission):
@@ -22,7 +23,9 @@ class IsEditor(BasePermission):
 
 
     def has_object_permission(self, request, view, obj):
-        if obj.group.filter(user=request.user).exists():
+        user = request.user
+        ct = ContentType.objects.get_for_model(view.model)
+        if obj.group.filter(user=request.user).exists() or user.groups.all().filter(owner_content_type_id=ct.id,is_admin=True).exists():
             return True
         else:
             return False
@@ -50,7 +53,10 @@ class IsRemoval(BasePermission):
 
 
     def has_object_permission(self, request, view, obj):
-        if obj.group.filter(user=request.user).exists():
+        user = request.user
+        ct = ContentType.objects.get_for_model(view.model)
+        if obj.group.filter(user=request.user).exists() or user.groups.all().filter(owner_content_type_id=ct.id,
+                                                                                    is_admin=True).exists():
             return True
         else:
             return False

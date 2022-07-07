@@ -16,8 +16,9 @@ class GroupSerializers(serializers.ModelSerializer):
     def validate(self, attrs):
         owner_content_type = attrs['owner_content_type']
         owner_object_id = attrs['owner_object_id']
+        is_admin = attrs['is_admin']
         qs = ContentType.objects.filter(id=owner_content_type.id).first().model_class().objects.filter(id=owner_object_id)
-        if qs.exists():
+        if is_admin or qs.exists():
             return attrs
         raise ValidationError({'owner_object_id': 'هیچ آیتمی با این آیدی وجود ندارد.'})
 
@@ -46,6 +47,7 @@ class GroupSerializers(serializers.ModelSerializer):
             'owner_object_id',
             'owner',
             'owner_object',
+            'is_admin'
         ]
 
         extra_kwargs = {
