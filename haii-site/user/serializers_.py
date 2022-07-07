@@ -14,18 +14,22 @@ class PermissionSerializers(serializers.ModelSerializer):
 
 class GroupSerializers(serializers.ModelSerializer):
     def validate(self, attrs):
-        owner_content_type = attrs['owner_content_type']
-        owner_object_id = attrs['owner_object_id']
-        is_admin = attrs['is_admin']
+        owner_content_type = attrs.get('owner_content_type',None)
+        owner_object_id = attrs.get('owner_object_id',None)
+        is_admin = attrs.get('is_admin',None)
         qs = ContentType.objects.filter(id=owner_content_type.id).first().model_class().objects.filter(id=owner_object_id)
         if is_admin or qs.exists():
+            attrs['creator'] = self.context['request'].user
             return attrs
         raise ValidationError({'owner_object_id': 'هیچ آیتمی با این آیدی وجود ندارد.'})
 
 
     @staticmethod
     def get_owner_object(obj):
-        return obj.owner_content_type.model_class().objects.filter(id=obj.owner_object_id).first().name
+        query = obj.owner_content_type.model_class().objects.filter(id=obj.owner_object_id).first()
+        if query:
+            return query.name
+        return None
 
 
     permissions_ = PermissionSerializers(source='permissions',many=True,read_only=True)
@@ -33,7 +37,8 @@ class GroupSerializers(serializers.ModelSerializer):
     owner = serializers.StringRelatedField(source='owner_content_type',read_only=True)
 
     owner_object = serializers.SerializerMethodField()
-          
+
+    creator = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = Group
@@ -47,7 +52,8 @@ class GroupSerializers(serializers.ModelSerializer):
             'owner_object_id',
             'owner',
             'owner_object',
-            'is_admin'
+            'is_admin',
+            'creator',
         ]
 
         extra_kwargs = {
