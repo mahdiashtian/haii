@@ -33,7 +33,6 @@ group = GenericRelation('auth.Group', content_type_field='owner_content_type', o
 
 
 def clean(self):
-    print(self.is_admin)
     result = self.owner_content_type.model_class().objects.filter(id=self.owner_object_id).exists()
     if not self.is_admin and not result:
         raise ValidationError(dict(owner_object_id=_('هیچ آیتمی با این آیدی وجود ندارد.')))
