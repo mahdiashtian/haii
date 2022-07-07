@@ -13,6 +13,7 @@ assets/
 # Distribution / packaging
 .Python
 build/
+haii-env/
 develop-eggs/
 dist/
 downloads/
