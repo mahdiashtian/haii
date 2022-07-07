@@ -10,6 +10,9 @@ __pycache__/
 static_cdn/
 assets/
 
+# Migration
+#migrations/
+
 # Distribution / packaging
 .Python
 build/
