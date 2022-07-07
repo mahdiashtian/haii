@@ -1,7 +1,7 @@
 from tokenize import group
 from django.db import models
-from django.contrib.auth.models import AbstractUser , Group , PermissionsMixin as PMX
-from django.contrib.contenttypes.fields import GenericForeignKey , GenericRelation
+from django.contrib.auth.models import AbstractUser , Group , PermissionsMixin
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
@@ -18,8 +18,6 @@ owner_object_id = models.PositiveIntegerField()
     
 owner_instance = GenericForeignKey('owner_content_type', 'owner_object_id')
 
-group = GenericRelation('auth.Group', content_type_field='owner_content_type', object_id_field='owner_object_id')
-
 
 def clean(self):
     if not self.owner_content_type.model_class().objects.filter(id=self.owner_object_id).exists():
@@ -27,7 +25,6 @@ def clean(self):
 
 
 Group.clean = clean
-Group.add_to_class('group',group)
 Group.add_to_class('owner_content_type', owner_content_type)
 Group.add_to_class('owner_object_id', owner_object_id)
 Group.add_to_class('owner_instance', owner_instance)
