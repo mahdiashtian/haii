@@ -13,7 +13,7 @@ class Startup(models.Model):
 
     main_job = models.TextField(verbose_name='کار استارت آپ')
 
-    date_of_formation = models.DateTimeField(verbose_name='تاریخ تشکیل')
+    date_of_formation = models.DateTimeField(verbose_name='تاریخ تشکیل',null=True,blank=True)
 
     user = models.ManyToManyField(to=AUTH_USER_MODEL,verbose_name='اعضا',related_name='user_startup')
 

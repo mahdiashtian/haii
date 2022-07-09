@@ -10,7 +10,7 @@ class IsSuperUser(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return bool(request.user and request.user.is_superuser)
-        
+
 
 class IsEditor(BasePermission):
     def has_permission(self, request, view):
@@ -38,7 +38,7 @@ class IsAdder(BasePermission):
         request.user.has_perm(
                  "%s.%s" % (opts.app_label, get_permission_codename('add', opts))
              )
-        
+
         )
 
 
@@ -70,6 +70,15 @@ class IsViewer(BasePermission):
                  "%s.%s" % (opts.app_label, get_permission_codename('view', opts))
              )
         )
+
+    def has_object_permission(self, request, view, obj):
+        user = request.user
+        ct = ContentType.objects.get_for_model(view.model)
+        if obj.group.filter(user=request.user).exists() or user.groups.all().filter(owner_content_type_id=ct.id,
+                                                                                    is_admin=True).exists():
+            return True
+        else:
+            return False
 
 
 class ReturnPerm():

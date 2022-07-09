@@ -11,7 +11,7 @@ class Product(models.Model):
 
     image = models.ImageField(verbose_name='لوگو',upload_to=upload_image_path,null=True,blank=True,)
 
-    date = models.DateTimeField(auto_now_add=True,verbose_name='سال ساخت')
+    date = models.DateTimeField(verbose_name='سال ساخت',null=True,blank=True)
 
     limit = models.Q(app_label = 'startup', model = 'startup') | models.Q(app_label = 'team', model = 'team')
 
