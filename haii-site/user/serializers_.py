@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User 
+from .models import User
 from django.contrib.auth.models import Permission , Group
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -14,14 +14,26 @@ class PermissionSerializers(serializers.ModelSerializer):
 
 class GroupSerializers(serializers.ModelSerializer):
     def validate(self, attrs):
+        user = self.context['request'].user
         owner_content_type = attrs.get('owner_content_type',None)
         owner_object_id = attrs.get('owner_object_id',None)
         is_admin = attrs.get('is_admin',None)
+
         qs = ContentType.objects.filter(id=owner_content_type.id).first().model_class().objects.filter(id=owner_object_id)
+
         if is_admin or qs.exists():
             attrs['creator'] = self.context['request'].user
             return attrs
         raise ValidationError({'owner_object_id': 'هیچ آیتمی با این آیدی وجود ندارد.'})
+
+
+    def validate_permissions(self,value):
+        func = lambda x: f'{x.content_type.app_label}.{x.codename}'
+        to_set = set(map(func,value))
+        user = self.context['request'].user
+        if user.has_perms(to_set):
+            return value
+        raise ValidationError({'permissions': 'شما حق انجام این عملیات را ندارید.'})
 
 
     @staticmethod
@@ -38,7 +50,7 @@ class GroupSerializers(serializers.ModelSerializer):
 
     owner_object = serializers.SerializerMethodField()
 
-    creator = serializers.ReadOnlyField(source='user.username')
+    creator = serializers.ReadOnlyField(source='creator.username')
 
     class Meta:
         model = Group
@@ -57,9 +69,9 @@ class GroupSerializers(serializers.ModelSerializer):
         ]
 
         extra_kwargs = {
-            'permissions':{'write_only':True},
-            'owner_content_type':{'write_only':True},
-            'owner_object_id':{'write_only':True},
+            'permissions': {'write_only':True},
+            'owner_content_type': {'write_only':True},
+            'owner_object_id': {'write_only':True},
         }
 
 

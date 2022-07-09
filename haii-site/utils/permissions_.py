@@ -71,6 +71,7 @@ class IsViewer(BasePermission):
              )
         )
 
+
     def has_object_permission(self, request, view, obj):
         user = request.user
         ct = ContentType.objects.get_for_model(view.model)
