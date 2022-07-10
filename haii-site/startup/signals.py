@@ -11,5 +11,3 @@ def run_after_delete(instance,**kwargs):
 
         if os.path.exists(path):
             os.remove(path)
-
-

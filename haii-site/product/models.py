@@ -1,6 +1,6 @@
 from django.db import models
 from utils.utils import upload_image_path
-from django.contrib.contenttypes.fields import GenericForeignKey , GenericRelation
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 
@@ -23,8 +23,6 @@ class Product(models.Model):
     owner_object_id = models.PositiveIntegerField()
 
     owner_instance = GenericForeignKey('owner_content_type', 'owner_object_id')
-
-    group = GenericRelation('auth.Group', content_type_field='owner_content_type', object_id_field='owner_object_id')
 
 
     def __str__(self):

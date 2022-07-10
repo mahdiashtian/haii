@@ -5,7 +5,6 @@ from django.contrib.auth.models import Permission
 from utils.permissions_ import IsSuperUser
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from utils.mixins import PermissiomMixin
 from django.db.models import Q
 
 
@@ -42,16 +41,10 @@ class UserViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
 
-class GroupViewSet(PermissiomMixin,viewsets.ModelViewSet):
+class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializers
     queryset = Group.objects.all()
-    model = Group
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_superuser:
-            return self.queryset
-        return self.queryset.filter(Q(user=user)|Q(creator=user))
+    permission_classes = [IsSuperUser]
 
 
 class PermissionViewSet(viewsets.ReadOnlyModelViewSet):
