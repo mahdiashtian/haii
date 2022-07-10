@@ -44,6 +44,8 @@ urlpatterns = [
     path('api/', include('product.urls', namespace='api-v1-product')),
     path('api/', include('team.urls', namespace='api-v1-team')),
     path('api/', include('log.urls', namespace='api-v1-log')),
+    path('api/', include('permission.urls', namespace='api-v1-permission')),
+
 ]
 
 if settings.DEBUG:

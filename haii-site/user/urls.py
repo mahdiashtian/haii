@@ -10,5 +10,5 @@ router.register(r'permission', PermissionViewSet, basename='permission')
 app_name = 'users'
 
 urlpatterns = [
-    path('v1/', include(router.urls))
+    path('v1/admin/', include(router.urls))
 ]
