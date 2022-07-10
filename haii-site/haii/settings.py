@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'news',
     'user',
     'product',
+    'log'
 ]
 
 SITE_ID = 1

@@ -23,11 +23,9 @@ from .views import TemplateVerify
 from haii import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('admins/doc/', include('django.contrib.admindocs.urls')),
-
 
     # override the email verification template
     path(
@@ -35,21 +33,18 @@ urlpatterns = [
         name='account_email_verification_sent',
     ),
 
-
     # override name the url
     path('password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-
 
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
 
-
-    path('api/', include('user.urls',namespace='api-v1-users')),
-    path('api/', include('startup.urls',namespace='api-v1-startup')),
-    path('api/', include('product.urls',namespace='api-v1-product')),
-    path('api/', include('team.urls',namespace='api-v1-team')),
+    path('api/', include('user.urls', namespace='api-v1-users')),
+    path('api/', include('startup.urls', namespace='api-v1-startup')),
+    path('api/', include('product.urls', namespace='api-v1-product')),
+    path('api/', include('team.urls', namespace='api-v1-team')),
+    path('api/', include('log.urls', namespace='api-v1-log')),
 ]
-
 
 if settings.DEBUG:
     urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
