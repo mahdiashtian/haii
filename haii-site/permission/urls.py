@@ -1,13 +1,11 @@
 from django.urls import path, include
-from .views import UserViewSet, GroupViewSet, PermissionViewSet
+from .views import PermissionViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'user', UserViewSet, basename='user')
-router.register(r'group', GroupViewSet, basename='group')
 router.register(r'permission', PermissionViewSet, basename='permission')
 
-app_name = 'users'
+app_name = 'permission'
 
 urlpatterns = [
     path('v1/', include(router.urls))
