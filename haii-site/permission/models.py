@@ -5,21 +5,21 @@ from user.models import User
 
 def default():
     return {
-        "product": [
+        "product":
             {
 
-            },
-        ],
-        "startup": [
+            }
+        ,
+        "startup":
             {
 
-            },
-        ],
-        "team": [
+            }
+        ,
+        "team":
             {
 
-            },
-        ]
+            }
+
     }
 
 
