@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     'user',
     'product',
     'log',
-    'permission'
 ]
 
 SITE_ID = 1

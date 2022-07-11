@@ -1,6 +1,6 @@
-from rest_framework import viewsets , status
-from .serializers_ import UserSerializers , GroupSerializers , PermissionSerializers , ChangePasswordSerializer
-from .models import User , Group
+from rest_framework import viewsets, status
+from .serializers_ import UserSerializers, PermissionSerializers, ChangePasswordSerializer
+from .models import User
 from django.contrib.auth.models import Permission
 from utils.permissions_ import IsSuperUser
 from rest_framework.decorators import action
@@ -12,8 +12,7 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializers
     queryset = User.objects.all()
     permission_classes = [IsSuperUser]
-    
-    
+
     def get_serializer_class(self):
         serializer_class = UserSerializers
         if self.action == 'update':
@@ -21,7 +20,6 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             serializer_class.Meta.read_only_fields = []
         return serializer_class
-
 
     @action(detail=True, methods=['put'])
     def chnage_password(self, request, pk=None):
@@ -33,23 +31,15 @@ class UserViewSet(viewsets.ModelViewSet):
             user.save()
             return Response({
                 'status': 'success',
-                'message':'Password changed successfully',
-                'password':password,
+                'message': 'Password changed successfully',
+                'password': password,
             })
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    serializer_class = GroupSerializers
-    queryset = Group.objects.all()
-    permission_classes = [IsSuperUser]
-
-
 class PermissionViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PermissionSerializers
     queryset = Permission.objects.all()
     permission_classes = [IsSuperUser]
-
-

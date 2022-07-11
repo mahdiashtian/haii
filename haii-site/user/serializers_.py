@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import User
-from django.contrib.auth.models import Permission , Group
+from django.contrib.auth.models import Permission
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.models import ContentType
@@ -12,30 +12,7 @@ class PermissionSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GroupSerializers(serializers.ModelSerializer):
-    permissions_ = PermissionSerializers(source='permissions',many=True,read_only=True)
-
-    class Meta:
-        model = Group
-
-        fields = [
-            'id',
-            'name',
-            'permissions_',
-            'permissions',
-        ]
-
-        extra_kwargs = {
-            'permissions': {'write_only':True},
-        }
-
-
 class UserSerializers(serializers.ModelSerializer):
-    user_permissions_ = PermissionSerializers(source='user_permissions',many=True,read_only=True)
-
-    groups_ = GroupSerializers(source='groups',many=True,read_only=True)
-
-
     class Meta:
         model = User
 
@@ -51,16 +28,8 @@ class UserSerializers(serializers.ModelSerializer):
             'is_superuser',
             'is_staff',
             'is_active',
-            'user_permissions',
-            'groups',
-            'user_permissions_',
-            'groups_',
+            'perm',
         ]
-
-        extra_kwargs = {
-            'groups':{'write_only':True},
-            'user_permissions':{'write_only':True},
-        }
 
 
 class ChangePasswordSerializer(serializers.Serializer):

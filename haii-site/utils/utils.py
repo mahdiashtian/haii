@@ -1,5 +1,6 @@
 import os
 import ast
+import numba as nb
 
 TEAM_IMAGE_ROOT = 'haii/'
 
@@ -14,13 +15,3 @@ def upload_image_path(instance=None, filename=None):
     name, ext = get_file_name(filename)
     final_name = f"{instance.name}{ext}"
     return f"{TEAM_IMAGE_ROOT}{instance.name}/{final_name}"
-
-
-def to_dict(value):
-    new_value = {}
-    for i,x in value.items():
-        if isinstance(x,str):
-            x = ast.literal_eval(x)
-            to_dict(x)
-        new_value[i]=x
-    return new_value
