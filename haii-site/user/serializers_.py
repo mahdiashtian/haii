@@ -13,6 +13,8 @@ class PermissionSerializers(serializers.ModelSerializer):
 
 
 class UserSerializers(serializers.ModelSerializer):
+    perm_ = serializers.ReadOnlyField(source="to_dict")
+
     class Meta:
         model = User
 
@@ -29,7 +31,12 @@ class UserSerializers(serializers.ModelSerializer):
             'is_staff',
             'is_active',
             'perm',
+            'perm_',
         ]
+
+        extra_kwargs = {
+            'perm': {'write_only': True},
+        }
 
 
 class ChangePasswordSerializer(serializers.Serializer):

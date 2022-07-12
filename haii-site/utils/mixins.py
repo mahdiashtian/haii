@@ -7,7 +7,7 @@ from .permissions_ import (
 from rest_framework.permissions import IsAuthenticated
 
 
-class PermissiomMixin:
+class PermissionMixin:
     def get_permissions(self):
         permission_classes = [IsAuthenticated]
         if self.action == 'create':

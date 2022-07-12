@@ -17,7 +17,7 @@ def default():
 class PermissionMixin:
     def has_perm_custom_(self, dict_, content_type=None, id=None, perm=None):
         key, value = dict_
-s        if key == 'overall':
+        if key == 'overall':
             if perm in value:
                 return True
         elif key == str(content_type):

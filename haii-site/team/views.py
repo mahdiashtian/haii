@@ -4,10 +4,10 @@ from .serializers_ import TeamSerializers
 from log.models import Log
 from rest_framework.response import Response
 from rest_framework.status import HTTP_202_ACCEPTED,HTTP_409_CONFLICT
-from utils.mixins import PermissiomMixin
+from utils.mixins import PermissionMixin
 
 
-class TeamViewSet(PermissiomMixin,viewsets.ModelViewSet):
+class TeamViewSet(PermissionMixin,viewsets.ModelViewSet):
     serializer_class = TeamSerializers
     model = Team
     queryset = Team.objects.all()
