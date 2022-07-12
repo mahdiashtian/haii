@@ -21,4 +21,3 @@ def run_after_change(sender, instance, created, **kwargs):
                 instance_obj.user.set(user)
                 if getattr(instance_obj, '_prefetched_objects_cache', None):
                     instance_obj._prefetched_objects_cache = {}
-        instance.delete()

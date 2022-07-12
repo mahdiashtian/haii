@@ -24,7 +24,7 @@ class Tag(BaseField):
 
 
 class Category(BaseField):
-    parent = models.ForeignKey('self',on_delete=models.CASCADE)
+    parent = models.ForeignKey('self',on_delete=models.CASCADE,null=True,blank=True)
 
 
     def  __str__(self):

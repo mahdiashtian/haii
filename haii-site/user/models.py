@@ -21,14 +21,13 @@ class PermissionMixin:
             if perm in value:
                 return True
         elif key == str(content_type):
-            value = value.get(str(id), None)
+            value = value.get(id, None)
             if value and perm in value:
                 return True
         return False
 
     def has_perm_custom(self, perm=None, model=None, id=None):
         all_perm = self.get_all_perm_user()
-        print(all_perm.items())
         content_type = self.get_content_type(model)
         func = dict(filter(lambda dict_: self.has_perm_custom_(dict_, content_type=content_type.id, id=id, perm=perm),
                            all_perm.items()))
