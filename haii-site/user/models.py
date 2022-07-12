@@ -17,17 +17,18 @@ def default():
 class PermissionMixin:
     def has_perm_custom_(self, dict_, content_type=None, id=None, perm=None):
         key, value = dict_
-        if key == 'overall':
+s        if key == 'overall':
             if perm in value:
                 return True
         elif key == str(content_type):
-            value = value.get(id, None)
+            value = value.get(str(id), None)
             if value and perm in value:
                 return True
-        return Falses
+        return False
 
     def has_perm_custom(self, perm=None, model=None, id=None):
         all_perm = self.get_all_perm_user()
+        print(all_perm.items())
         content_type = self.get_content_type(model)
         func = dict(filter(lambda dict_: self.has_perm_custom_(dict_, content_type=content_type.id, id=id, perm=perm),
                            all_perm.items()))
