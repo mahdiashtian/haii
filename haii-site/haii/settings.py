@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'user',
     'product',
     'log',
+    'slider',
 ]
 
 SITE_ID = 1
@@ -159,8 +160,6 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-TOKEN_BOT = config('TOKEN_BOT')
-ID_CHANNEL = config('ID_CHANNEL')
 
 AUTH_USER_MODEL = 'user.User'
 
@@ -170,3 +169,4 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     )
 }
+
