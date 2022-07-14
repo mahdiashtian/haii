@@ -1,6 +1,5 @@
 import os
 import ast
-import numba as nb
 
 TEAM_IMAGE_ROOT = 'haii/'
 

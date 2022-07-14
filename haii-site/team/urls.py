@@ -1,6 +1,7 @@
 from django.urls import path, include
-from .views import TeamViewSet
 from rest_framework import routers
+
+from .views import TeamViewSet
 
 router = routers.DefaultRouter()
 router.register(r'team', TeamViewSet, basename='team')

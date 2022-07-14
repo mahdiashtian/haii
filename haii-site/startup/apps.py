@@ -5,5 +5,5 @@ class StartupConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'startup'
 
-    def ready(self) -> None:
+    def ready(self):
         import startup.signals

@@ -14,39 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import (
-    path,
-    include,
-)
-from dj_rest_auth.views import PasswordResetConfirmView
-from .views import TemplateVerify
-from haii import settings
-from django.conf.urls.static import static
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('admins/doc/', include('django.contrib.admindocs.urls')),
 
-    # override the email verification template
-    path(
-        'dj-rest-auth/registration/account-email-verification-sent/', TemplateVerify.as_view(),
-        name='account_email_verification_sent',
-    ),
+    path('api-auth/', include('rest_framework.urls')),
 
-    # override name the url
-    path('password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
-
-    path('api/', include('user.urls', namespace='api-v1-users')),
+    path('api/', include('news.urls', namespace='api-v1-news')),
     path('api/', include('startup.urls', namespace='api-v1-startup')),
-    path('api/', include('product.urls', namespace='api-v1-product')),
     path('api/', include('team.urls', namespace='api-v1-team')),
     path('api/', include('log.urls', namespace='api-v1-log')),
+    path('api/', include('product.urls', namespace='api-v1-product')),
     path('api/', include('slider.urls', namespace='api-v1-slider')),
-]
 
-if settings.DEBUG:
-    urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

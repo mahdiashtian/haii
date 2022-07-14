@@ -1,11 +1,11 @@
-from django.dispatch import receiver
-from django.db.models.signals import post_delete
 import os
 
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
-@receiver(post_delete,sender="team.Team")
-def run_after_delete(instance,**kwargs):
-    
+
+@receiver(post_delete, sender="team.Team")
+def run_after_delete(instance, **kwargs):
     if instance.image:
         path = instance.image.path
 

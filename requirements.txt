@@ -8,5 +8,8 @@ dj-rest-auth==2.2.4
 django-allauth==0.51.0
 drf-dynamic-fields==0.4.0
 djangorestframework-simplejwt==5.2.0
+python-telegram-==13.13
 redis
 psycopg2
+requests
+aiocron

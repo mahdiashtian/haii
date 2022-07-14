@@ -1,19 +1,18 @@
 from django.db import models
+
 from utils.utils import upload_image_path
 
 
 class BaseField(models.Model):
-    name = models.CharField(verbose_name='نام',max_length=50)
-
+    name = models.CharField(verbose_name='نام', max_length=50)
 
     class Meta:
         abstract = True
 
 
 class Tag(BaseField):
-    def  __str__(self):
+    def __str__(self):
         return self.name
-
 
     class Meta:
         app_label = "news"
@@ -24,12 +23,10 @@ class Tag(BaseField):
 
 
 class Category(BaseField):
-    parent = models.ForeignKey('self',on_delete=models.CASCADE,null=True,blank=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
-
-    def  __str__(self):
+    def __str__(self):
         return self.name
-
 
     class Meta:
         app_label = "news"
@@ -42,24 +39,22 @@ class Category(BaseField):
 class News(BaseField):
     news = models.TextField(verbose_name='خبر')
 
-    image = models.ImageField(verbose_name='تصویر',upload_to=upload_image_path,blank=True,null=True)
+    image = models.ImageField(verbose_name='تصویر', upload_to=upload_image_path, blank=True, null=True)
 
-    date_of_registration = models.DateTimeField('تاریخ ثبت',auto_now_add=True)
+    date_of_registration = models.DateTimeField('تاریخ ثبت', auto_now_add=True)
 
-    edit_date = models.DateTimeField('تاریخ ویرایش',auto_now=True)
+    edit_date = models.DateTimeField('تاریخ ویرایش', auto_now=True)
 
-    share = models.BooleanField(verbose_name='اشتراک گذاری در شبکه های اجتماعی',default=False)
+    share = models.BooleanField(verbose_name='اشتراک گذاری در شبکه های اجتماعی', default=False)
 
-    date_of_send = models.DateTimeField('تاریخ ارسال به کانال تلگرام',blank=True,null=True)
+    postage_date = models.DateTimeField('تاریخ ارسال به شبکه های اجتماعی', blank=True, null=True)
 
-    tag = models.ManyToManyField(Tag,verbose_name='تگ',blank=True)
+    tag = models.ManyToManyField(Tag, verbose_name='تگ', blank=True)
 
-    category = models.ManyToManyField(Category,verbose_name='دسته بندی',blank=True)
-
+    category = models.ManyToManyField(Category, verbose_name='دسته بندی', blank=True)
 
     def __str__(self):
         return self.name
-
 
     class Meta:
         app_label = "news"
