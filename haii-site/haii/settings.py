@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'team',
     'startup',
     'slider',
+    'permission',
 ]
 
 MIDDLEWARE = [
