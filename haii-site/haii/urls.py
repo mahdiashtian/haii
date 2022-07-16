@@ -21,6 +21,9 @@ urlpatterns = [
 
     path('api-auth/', include('rest_framework.urls')),
 
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+
     path('api/', include('news.urls', namespace='api-v1-news')),
     path('api/', include('startup.urls', namespace='api-v1-startup')),
     path('api/', include('team.urls', namespace='api-v1-team')),

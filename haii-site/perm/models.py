@@ -2,9 +2,10 @@ from django.db import models
 from user.models import User
 
 
-class Permission(models.Model):
+class Perm(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name='کاربر')
-    perm = models.JSONField(verbose_name='مجوز ها')
+    perm_overall = models.JSONField(verbose_name='مجوز های کلی')
+    perm_minor = models.JSONField(verbose_name='مجوز های جزئی')
 
     class Meta:
         verbose_name = 'مجوز'
