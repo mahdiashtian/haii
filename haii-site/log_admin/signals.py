@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from rest_framework.utils import model_meta
 
 
-@receiver(post_save, sender="log.Log")
+@receiver(post_save, sender="log_admin.Log")
 def run_after_change(sender, instance, created, **kwargs):
     if not created:
         publish = instance.publish

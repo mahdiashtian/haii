@@ -2,7 +2,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_409_CONFLICT, HTTP_202_ACCEPTED
 
-from log.models import Log
+from log_admin.models import Log
 from .permissions_ import (
     IsSuperUser,
     IsEditor,

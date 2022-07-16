@@ -54,12 +54,12 @@ INSTALLED_APPS = [
 
     'user',
     'news',
-    'log',
     'product',
     'team',
     'startup',
     'slider',
     'perm',
+    'log_admin'
 ]
 
 MIDDLEWARE = [

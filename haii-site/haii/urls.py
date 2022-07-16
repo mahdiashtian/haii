@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/', include('news.urls', namespace='api-v1-news')),
     path('api/', include('startup.urls', namespace='api-v1-startup')),
     path('api/', include('team.urls', namespace='api-v1-team')),
-    path('api/', include('log.urls', namespace='api-v1-log')),
+    path('api/', include('log_admin.urls', namespace='api-v1-log')),
     path('api/', include('product.urls', namespace='api-v1-product')),
     path('api/', include('slider.urls', namespace='api-v1-slider')),
 
