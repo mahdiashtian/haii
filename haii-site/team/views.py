@@ -1,6 +1,6 @@
+from log_admin.mixins import LogAdminMixin
 from rest_framework import viewsets
 
-from utils.mixins import LogAdminMixin
 from .models import Team
 from .serializers_ import TeamSerializers
 

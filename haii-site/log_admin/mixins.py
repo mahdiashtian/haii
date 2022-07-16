@@ -1,14 +1,7 @@
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_409_CONFLICT, HTTP_202_ACCEPTED
 
-from log_admin.models import Log
-from .permissions_ import (
-    IsSuperUser,
-    IsEditor,
-    IsAdder,
-    IsRemoval,
-)
+from .models import Log
 
 
 class LogAdminMixin:
@@ -40,18 +33,3 @@ class LogAdminMixin:
                                 status=HTTP_202_ACCEPTED)
             return Response(data={"detail": "شما از قبل یک درخواست اپدیت دارید!"},
                             status=HTTP_409_CONFLICT)
-
-
-class PermissionMixin:
-    def get_permissions(self):
-        permission_classes = [IsAuthenticated]
-        if self.action == 'create':
-            permission_classes += [IsSuperUser | IsAdder]
-
-        elif self.action in ['update', 'partial_update']:
-            permission_classes += [IsSuperUser | IsEditor]
-
-        elif self.action == 'destroy':
-            permission_classes += [IsSuperUser | IsRemoval]
-
-        return [permission() for permission in permission_classes]
