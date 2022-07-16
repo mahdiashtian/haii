@@ -30,5 +30,6 @@ urlpatterns = [
     path('api/', include('log_admin.urls', namespace='api-v1-log')),
     path('api/', include('product.urls', namespace='api-v1-product')),
     path('api/', include('slider.urls', namespace='api-v1-slider')),
+    path('api/', include('perm.urls', namespace='api-v1-perm')),
 
 ]

@@ -1,5 +1,4 @@
 import os
-import ast
 
 TEAM_IMAGE_ROOT = 'haii/'
 
