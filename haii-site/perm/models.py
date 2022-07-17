@@ -75,6 +75,8 @@ class Perm(models.Model, PermMixin):
     user = models.OneToOneField(to=User, on_delete=models.CASCADE, verbose_name='کاربر', related_name='perm_user')
     perm_overall = ArrayField(models.CharField(max_length=100), verbose_name='دسترسی کلی', default=list, blank=True)
     perm_minor = models.JSONField(verbose_name='مجوز های جزئی', default=dict, blank=True)
+    creator = models.OneToOneField(to=User, on_delete=models.CASCADE, verbose_name='سازنده',
+                                   related_name='perm_creator')
 
     class Meta:
         verbose_name = 'مجوز'
