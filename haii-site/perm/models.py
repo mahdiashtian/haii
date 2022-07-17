@@ -13,11 +13,14 @@ class PermMixin:
         perm_minor = self.perm_minor
         return {'overall': perm_overall, 'minor': perm_minor}
 
-    def has_perm(self, perm, model, item=None):
+    def has_perm(self, perm, model=None, content_type_id=None, item=None):
         if item:
             item = str(item)
+        if model:
+            content_type = self.get_content_type(model)
+        else:
+            content_type = str(content_type_id)
         all_perm = self.get_all_perm()
-        content_type = self.get_content_type(model)
         overall = all_perm.get('overall', [])
         minor = all_perm.get('minor', {})
 
@@ -27,10 +30,13 @@ class PermMixin:
             return True
         return False
 
-    def add_perm(self, perm, model, item=None):
+    def add_perm(self, perm, model=None, content_type_id=None, item=None):
         if item:
             item = str(item)
-        content_type = self.get_content_type(model)
+        if model:
+            content_type = self.get_content_type(model)
+        else:
+            content_type = str(content_type_id)
         if content_type:
             if not item:
                 if perm not in self.perm_overall:
@@ -44,10 +50,13 @@ class PermMixin:
                     self.perm_minor[content_type][item] = list_perm
             self.save()
 
-    def remove_perm(self, perm, model, item=None):
+    def remove_perm(self, perm, model=None, content_type_id=None, item=None):
         if item:
             item = str(item)
-        content_type = self.get_content_type(model)
+        if model:
+            content_type = self.get_content_type(model)
+        else:
+            content_type = str(content_type_id)
         if content_type:
             if not item:
                 if perm in self.perm_overall:

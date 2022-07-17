@@ -1,6 +1,7 @@
 from django.contrib.auth import get_permission_codename
-from django.contrib.contenttypes.models import ContentType
 from rest_framework.permissions import BasePermission
+
+from .models import Perm
 
 
 class IsSuperUser(BasePermission):
@@ -17,11 +18,10 @@ class IsEditor(BasePermission):
         opts = model._meta
         perm = "%s.%s" % (opts.app_label, get_permission_codename('change', opts))
         id_ = obj.id
-        return bool(
-            request.user.has_perm_custom(
-                perm=perm, model=model, id=id_
-            )
-        )
+        pr = Perm.objects.filter(user=request.user)
+        if pr and pr.first().has_perm(perm=perm, model=model, item=id_):
+            return True
+        return False
 
 
 class IsAdder(BasePermission):
@@ -29,11 +29,10 @@ class IsAdder(BasePermission):
         model = view.model
         opts = model._meta
         perm = "%s.%s" % (opts.app_label, get_permission_codename('add', opts))
-        return bool(
-            request.user.has_perm_custom(
-                perm=perm, model=model
-            )
-        )
+        pr = Perm.objects.filter(user=request.user)
+        if pr and pr.first().has_perm(perm=perm, model=model):
+            return True
+        return False
 
 
 class IsRemoval(BasePermission):
@@ -42,11 +41,10 @@ class IsRemoval(BasePermission):
         opts = model._meta
         perm = "%s.%s" % (opts.app_label, get_permission_codename('delete', opts))
         id_ = obj.id
-        return bool(
-            request.user.has_perm_custom(
-                perm=perm, model=model, id=id_
-            )
-        )
+        pr = Perm.objects.filter(user=request.user)
+        if pr and pr.first().has_perm(perm=perm, model=model, item=id_):
+            return True
+        return False
 
 
 class IsViewer(BasePermission):
@@ -54,11 +52,10 @@ class IsViewer(BasePermission):
         model = view.model
         opts = model._meta
         perm = "%s.%s" % (opts.app_label, get_permission_codename('view', opts))
-        return bool(
-            request.user.has_perm_custom(
-                perm=perm, model=model
-            )
-        )
+        pr = Perm.objects.filter(user=request.user)
+        if pr and pr.first().has_perm(perm=perm, model=model):
+            return True
+        return False
 
 
 class ReturnPerm():

@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from log_admin.mixins import LogAdminMixin
+from perm.mixins import PermissionMixin
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
 
@@ -7,7 +8,7 @@ from .models import News, Tag, Category
 from .serializers_ import NewsSerializer, CategorySerializer, TagSerializer
 
 
-class NewsViewSet(LogAdminMixin, viewsets.ModelViewSet):
+class NewsViewSet(LogAdminMixin, PermissionMixin, viewsets.ModelViewSet):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     model = News
