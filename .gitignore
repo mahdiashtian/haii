@@ -11,7 +11,7 @@ static_cdn/
 assets/
 
 # Migration
-#migrations/
+migrations/
 
 # Distribution / packaging
 .Python
