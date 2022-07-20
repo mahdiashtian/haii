@@ -1,11 +1,7 @@
 from django.contrib import admin
 
 from .models import (
-    Category,
-    News,
-    Tag
+    News
 )
 
-admin.site.register(Category)
 admin.site.register(News)
-admin.site.register(Tag)

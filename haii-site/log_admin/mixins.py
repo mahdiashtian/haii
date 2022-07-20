@@ -29,7 +29,7 @@ class LogAdminMixin:
             query = Log.objects.filter(information__id=item['id'], information__app_label=data['app_label'],
                                        information__model=data['model'], publish=False)
             if not query.exists():
-                Log.objects.create(user=user, information=item, default=defaults)
+                Log.objects.create(user=user, information=item, default=default)
                 return Response(data={"detail": "تنظیمات اعمال شده بعد از تایید ادمین نمایش داده خواهند شد"},
                                 status=HTTP_202_ACCEPTED)
             return Response(data={"detail": "شما از قبل یک درخواست اپدیت دارید!"},

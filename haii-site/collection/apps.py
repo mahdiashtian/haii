@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class TeamConfig(AppConfig):
+class CollectionConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'team'
+    name = 'collection'
 
     def ready(self):
-        import team.signals
+        import collection.signals

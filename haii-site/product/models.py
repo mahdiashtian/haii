@@ -14,11 +14,11 @@ class Product(models.Model):
 
     date = models.DateTimeField(verbose_name='سال ساخت', null=True, blank=True)
 
-    tag = models.ManyToManyField(verbose_name='تگ', to='news.Tag')
+    tag = models.ManyToManyField(verbose_name='تگ', to='bookmark.Tag')
 
-    category = models.ManyToManyField(verbose_name='دسته بندی', to='news.Category')
+    category = models.ManyToManyField(verbose_name='دسته بندی', to='bookmark.Category')
 
-    limit = models.Q(app_label='startup', model='startup') | models.Q(app_label='team', model='team')
+    limit = models.Q(app_label='collection', model='startup') | models.Q(app_label='collection', model='team')
 
     owner_content_type = models.ForeignKey(ContentType,
                                            on_delete=models.CASCADE,

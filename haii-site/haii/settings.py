@@ -54,12 +54,12 @@ INSTALLED_APPS = [
 
     'user',
     'news',
+    'bookmark',
     'product',
-    'team',
-    'startup',
     'slider',
     'perm',
-    'log_admin'
+    'log_admin',
+    'collection',
 ]
 
 MIDDLEWARE = [

@@ -25,11 +25,11 @@ urlpatterns = [
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
 
     path('api/', include('news.urls', namespace='api-v1-news')),
-    path('api/', include('startup.urls', namespace='api-v1-startup')),
-    path('api/', include('team.urls', namespace='api-v1-team')),
     path('api/', include('log_admin.urls', namespace='api-v1-log')),
     path('api/', include('product.urls', namespace='api-v1-product')),
     path('api/', include('slider.urls', namespace='api-v1-slider')),
     path('api/', include('perm.urls', namespace='api-v1-perm')),
+    path('api/', include('bookmark.urls', namespace='api-v1-bookmark')),
+    path('api/', include('collection.urls', namespace='api-v1-collection')),
 
 ]
