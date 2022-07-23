@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     'bookmark',
     'product',
     'slider',
-    'perm',
     'log_admin',
     'collection',
 ]
