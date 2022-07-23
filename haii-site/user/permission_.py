@@ -1,7 +1,7 @@
 from django.contrib.auth import get_permission_codename
 from rest_framework.permissions import BasePermission
-
-from .models import Perm
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import Group
 
 
 class IsSuperUser(BasePermission):
@@ -18,8 +18,10 @@ class IsEditor(BasePermission):
         opts = model._meta
         perm = "%s.%s" % (opts.app_label, get_permission_codename('change', opts))
         id_ = obj.id
-        pr = Perm.objects.filter(user=request.user)
-        if pr and pr.first().has_perm(perm=perm, model=model, item=id_):
+        user = request.user
+        content_type = ContentType.objects.get_for_model(model)
+        result = Group.objects.filter(content_type=content_type,object_id=id_,user=user).exists()
+        if result:
             return True
         return False
 
@@ -29,8 +31,8 @@ class IsAdder(BasePermission):
         model = view.model
         opts = model._meta
         perm = "%s.%s" % (opts.app_label, get_permission_codename('add', opts))
-        pr = Perm.objects.filter(user=request.user)
-        if pr and pr.first().has_perm(perm=perm, model=model):
+        user = request.user
+        if user.has_perm(perm):
             return True
         return False
 
@@ -38,22 +40,34 @@ class IsAdder(BasePermission):
 class IsRemoval(BasePermission):
     def has_object_permission(self, request, view, obj):
         model = view.model
-        opts = model._meta
-        perm = "%s.%s" % (opts.app_label, get_permission_codename('delete', opts))
         id_ = obj.id
-        pr = Perm.objects.filter(user=request.user)
-        if pr and pr.first().has_perm(perm=perm, model=model, item=id_):
+        user = request.user
+        content_type = ContentType.objects.get_for_model(model)
+        result = Group.objects.filter(content_type=content_type,object_id=id_,user=user).exists()
+        if result:
             return True
         return False
 
 
-class IsViewer(BasePermission):
+class IsRetrieveView(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        model = view.model
+        id_ = obj.id
+        user = request.user
+        content_type = ContentType.objects.get_for_model(model)
+        result = Group.objects.filter(content_type=content_type,object_id=id_,user=user).exists()
+        if result:
+            return True
+        return False
+
+
+class IsListViewer(BasePermission):
     def has_permission(self, request, view):
         model = view.model
         opts = model._meta
         perm = "%s.%s" % (opts.app_label, get_permission_codename('view', opts))
-        pr = Perm.objects.filter(user=request.user)
-        if pr and pr.first().has_perm(perm=perm, model=model):
+        user = request.user
+        if user.has_perm(perm):
             return True
         return False
 

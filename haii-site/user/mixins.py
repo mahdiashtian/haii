@@ -5,15 +5,19 @@ from .permission_ import (
     IsEditor,
     IsAdder,
     IsRemoval,
-    IsViewer
+    IsListViewer,
+    IsRetrieveView
 )
 
 
 class PermissionMixin:
     def get_permissions(self):
         permission_classes = [IsAuthenticated]
-        if self.action in ['list', 'retrieve']:
-            permission_classes += [IsSuperUser | IsViewer]
+        if self.action == 'list':
+            permission_classes += [IsSuperUser | IsListViewer]
+            
+        if self.action == 'retrieve':
+            permission_classes += [IsSuperUser | IsRetrieveView]
 
         elif self.action == 'create':
             permission_classes += [IsSuperUser | IsAdder]
