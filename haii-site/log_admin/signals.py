@@ -21,6 +21,8 @@ def run_after_change(sender, instance, created, **kwargs):
                 for attr, value in new_data.items():
                     if attr in info.relations and info.relations[attr].to_many:
                         m2m_fields.append((attr, value))
+                    elif attr in info.relations and info.relations[attr]:
+                        setattr(instance_, attr+".id", int(value))
                     else:
                         setattr(instance_, attr, value)
                 instance_.save()

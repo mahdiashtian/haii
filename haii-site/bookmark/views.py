@@ -13,3 +13,4 @@ class TagViewSet(LogAdminMixin, viewsets.ModelViewSet):
 class CategoryViewSet(LogAdminMixin, viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    model = Category
