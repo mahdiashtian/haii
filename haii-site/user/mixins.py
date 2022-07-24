@@ -1,11 +1,8 @@
-from tokenize import group
-from distro import codename
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import Group , Permission
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import get_permission_codename
 from django.db.models import Q
-from django.db import transaction
 from user.models import User
 
 from .permission_ import (
@@ -37,9 +34,8 @@ class PerformCreateMixin:
         users = User.objects.filter(
             Q(groups__content_type=content_type) & Q(groups__object_id=object_id)
             ).distinct().filter(groups__permissions__codename=perm)
-        with transaction.atomic():
-            for user in users:
-                user.groups.add(gp)
+        for user in users:
+            user.groups.add(gp)
 
 
 class PermissionMixin:

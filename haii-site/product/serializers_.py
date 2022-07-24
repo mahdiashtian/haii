@@ -16,8 +16,14 @@ class ProductSerializers(serializers.ModelSerializer):
             id=owner_object_id
             ).exists()
         user_ = user.groups.filter(
-            Q(content_type=owner_content_type) & Q(object_id=owner_object_id)
-            ).distinct().exists()
+            (
+                Q(content_type=owner_content_type) & Q(object_id=owner_object_id)
+            )
+            |
+            (
+                Q(content_type=owner_content_type) & Q(overall=True)
+            )
+        ).distinct().exists()
         if result and user_:
             return attrs
         raise ValidationError({
