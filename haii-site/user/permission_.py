@@ -22,7 +22,9 @@ class IsEditor(BasePermission):
         perm = get_permission_codename('change',opts)
         content_type = ContentType.objects.get_for_model(model)
         lookup = (
-            (Q(content_type=content_type) & Q(object_id=id_) & Q(user=user) & Q(permissions__codename=perm)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user) & Q(permissions__codename=perm))
+            (
+                Q(content_type=content_type) & Q(object_id=id_) & Q(user=user) & Q(permissions__codename=perm)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user) & Q(permissions__codename=perm)
+            )
         )
         result = Group.objects.filter(lookup).exists()
         if result:
