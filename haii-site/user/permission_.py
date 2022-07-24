@@ -19,9 +19,10 @@ class IsEditor(BasePermission):
         opts = model._meta
         id_ = obj.id
         user = request.user
+        perm = get_permission_codename('change',opts)
         content_type = ContentType.objects.get_for_model(model)
         lookup = (
-            (Q(content_type=content_type) & Q(object_id=id_) & Q(user=user)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user))
+            (Q(content_type=content_type) & Q(object_id=id_) & Q(user=user) & Q(permissions__codename=perm)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user) & Q(permissions__codename=perm))
         )
         result = Group.objects.filter(lookup).exists()
         if result:
@@ -46,8 +47,10 @@ class IsRemoval(BasePermission):
         id_ = obj.id
         user = request.user
         content_type = ContentType.objects.get_for_model(model)
+        opts = model._meta
+        perm = get_permission_codename('change',opts)
         lookup = (
-            (Q(content_type=content_type) & Q(object_id=id_) & Q(user=user)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user))
+            (Q(content_type=content_type) & Q(object_id=id_) & Q(user=user) & Q(permissions__codename=perm)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user) & Q(permissions__codename=perm))
         )
         result = Group.objects.filter(lookup).exists()
         if result:
@@ -61,10 +64,11 @@ class IsRetrieveView(BasePermission):
         id_ = obj.id
         user = request.user
         content_type = ContentType.objects.get_for_model(model)
+        opts = model._meta
+        perm = get_permission_codename('change',opts)
         lookup = (
-            (Q(content_type=content_type) & Q(object_id=id_) & Q(user=user)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user))
+            (Q(content_type=content_type) & Q(object_id=id_) & Q(user=user) & Q(permissions__codename=perm)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user) & Q(permissions__codename=perm))
         )
-
         result = Group.objects.filter(lookup).exists()
         if result:
             return True
@@ -85,8 +89,8 @@ class IsListViewer(BasePermission):
 class ReturnPerm():
     def __init__(self):
         self.dict_perm = {
-            'list': IsViewer,
-            'retrieve': IsViewer,
+            'list': IsListViewer,
+            'retrieve': IsRetrieveView,
             'create': IsAdder,
             'update': IsEditor,
             'partial_update': IsEditor,

@@ -24,13 +24,14 @@ class PerformCreateMixin:
         model = self.model
         opts = model._meta
         instance = serializer.save()
+        content_type_model = ContentType.objects.get_for_model(model)
         content_type = instance.owner_content_type
         object_id = instance.owner_object_id
         excludes = [
             f"add_{model._meta.model_name}"
         ]
-        permission = Permission.objects.filter(Q(content_type=content_type) & ~Q(codename__in=excludes))
-        gp = Group.objects.create(content_type=content_type,object_id=instance.id,name='مجوز '+instance.name)
+        permission = Permission.objects.filter(Q(content_type=content_type_model) & ~Q(codename__in=excludes))
+        gp = Group.objects.create(content_type=content_type,object_id=object_id,name='مجوز '+instance.name)
         gp.permissions.set(permission)
         perm = get_permission_codename('add', opts)
         users = User.objects.filter(
