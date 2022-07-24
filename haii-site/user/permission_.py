@@ -2,6 +2,7 @@ from django.contrib.auth import get_permission_codename
 from rest_framework.permissions import BasePermission
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Group
+from django.db.models import Q
 
 
 class IsSuperUser(BasePermission):
@@ -16,11 +17,13 @@ class IsEditor(BasePermission):
     def has_object_permission(self, request, view, obj):
         model = view.model
         opts = model._meta
-        perm = "%s.%s" % (opts.app_label, get_permission_codename('change', opts))
         id_ = obj.id
         user = request.user
         content_type = ContentType.objects.get_for_model(model)
-        result = Group.objects.filter(content_type=content_type,object_id=id_,user=user).exists()
+        lookup = (
+            (Q(content_type=content_type) & Q(object_id=id_) & Q(user=user)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user))
+        )
+        result = Group.objects.filter(lookup).exists()
         if result:
             return True
         return False
@@ -43,7 +46,10 @@ class IsRemoval(BasePermission):
         id_ = obj.id
         user = request.user
         content_type = ContentType.objects.get_for_model(model)
-        result = Group.objects.filter(content_type=content_type,object_id=id_,user=user).exists()
+        lookup = (
+            (Q(content_type=content_type) & Q(object_id=id_) & Q(user=user)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user))
+        )
+        result = Group.objects.filter(lookup).exists()
         if result:
             return True
         return False
@@ -55,7 +61,10 @@ class IsRetrieveView(BasePermission):
         id_ = obj.id
         user = request.user
         content_type = ContentType.objects.get_for_model(model)
-        result = Group.objects.filter(content_type=content_type,object_id=id_,user=user).exists()
+        lookup = (
+            (Q(content_type=content_type) & Q(object_id=id_) & Q(user=user)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user))
+        )
+        result = Group.objects.filter(lookup).exists()
         if result:
             return True
         return False

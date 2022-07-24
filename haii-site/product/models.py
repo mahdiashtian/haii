@@ -14,9 +14,9 @@ class Product(models.Model):
 
     date = models.DateTimeField(verbose_name='سال ساخت', null=True, blank=True)
 
-    tag = models.ManyToManyField(verbose_name='تگ', to='bookmark.Tag')
+    tag = models.ManyToManyField(verbose_name='تگ', to='bookmark.Tag',blank=True)
 
-    category = models.ManyToManyField(verbose_name='دسته بندی', to='bookmark.Category')
+    category = models.ManyToManyField(verbose_name='دسته بندی', to='bookmark.Category',blank=True)
 
     limit = models.Q(app_label='collection', model='startup') | models.Q(app_label='collection', model='team')
 
