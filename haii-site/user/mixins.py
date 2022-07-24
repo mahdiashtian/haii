@@ -24,8 +24,8 @@ class PerformCreateMixin:
         model = self.model
         opts = model._meta
         instance = serializer.save()
-        content_type = instance.content_type
-        object_id = instance.object_id
+        content_type = instance.owner_content_type
+        object_id = instance.owner_object_id
         excludes = [
             f"add_{model._meta.model_name}"
         ]
@@ -44,13 +44,13 @@ class PerformCreateMixin:
 class PermissionMixin:
     def get_permissions(self):
         permission_classes = [IsAuthenticated]
-        if self.action == 'list':
-            permission_classes += [IsSuperUser | IsListViewer]
+        # if self.action == 'list':
+        #     permission_classes += [IsSuperUser | IsListViewer]
             
-        if self.action == 'retrieve':
-            permission_classes += [IsSuperUser | IsRetrieveView]
+        # if self.action == 'retrieve':
+        #     permission_classes += [IsSuperUser | IsRetrieveView]
 
-        elif self.action == 'create':
+        if self.action == 'create':
             permission_classes += [IsSuperUser | IsAdder]
 
         elif self.action in ['update', 'partial_update']:

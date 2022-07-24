@@ -3,15 +3,16 @@ from rest_framework import viewsets
 
 from .models import Startup, Team
 from .serializers_ import StartupSerializers, TeamSerializers
+from user.mixins import  PermissionMixin
 
 
-class StartupViewSet(LogAdminMixin, viewsets.ModelViewSet):
+class StartupViewSet(PermissionMixin,LogAdminMixin, viewsets.ModelViewSet):
     serializer_class = StartupSerializers
     queryset = Startup.objects.all()
     model = Startup
 
 
-class TeamViewSet(LogAdminMixin, viewsets.ModelViewSet):
+class TeamViewSet(PermissionMixin,LogAdminMixin, viewsets.ModelViewSet):
     serializer_class = TeamSerializers
     model = Team
     queryset = Team.objects.all()

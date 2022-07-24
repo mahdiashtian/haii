@@ -64,6 +64,7 @@ class IsRetrieveView(BasePermission):
         lookup = (
             (Q(content_type=content_type) & Q(object_id=id_) & Q(user=user)) | (Q(content_type=content_type) & Q(overall=True) & Q(user=user))
         )
+
         result = Group.objects.filter(lookup).exists()
         if result:
             return True
